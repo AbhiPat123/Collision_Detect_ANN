@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def train_model(no_epochs):
 
-    batch_size =
+    batch_size = 16
     data_loaders = Data_Loaders(batch_size)
     model = Action_Conditioned_FF()
 

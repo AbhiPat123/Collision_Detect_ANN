@@ -18,7 +18,7 @@ class Nav_Dataset(dataset.Dataset):
 
     def __len__(self):
 # STUDENTS: __len__() returns the length of the dataset
-        pass
+        return len(self.normalized_data)
 
     def __getitem__(self, idx):
         if not isinstance(idx, int):
@@ -27,11 +27,35 @@ class Nav_Dataset(dataset.Dataset):
 # x and y should both be of type float32. There are many other ways to do this, but to work with autograding
 # please do not deviate from these specifications.
 
+        # get the input and label values as float32 dtype
+        x = torch.tensor(self.normalized_data[idx][:-1], dtype=torch.float32)
+        y = torch.tensor(self.normalized_data[idx][-1], dtype=torch.float32)
+
+        # create a return dictionary
+        ret_dict = {
+            'input': x,
+            'label': y
+        }
+        return ret_dict
 
 class Data_Loaders():
     def __init__(self, batch_size):
         self.nav_dataset = Nav_Dataset()
 # STUDENTS: randomly split dataset into two data.DataLoaders, self.train_loader and self.test_loader
+# make sure your split can handle an arbitrary number of samples in the dataset as this may vary
+        # get the length of the entire dataset
+        dataset_len = self.nav_dataset.__len__()
+
+        # set training and testing data size
+        tr_data_size = int(0.8 * dataset_len)
+        ts_data_size = dataset_len - tr_data_size
+
+        # use torch's random_split to randomly split the dataset
+        tr_dataset, ts_dataset = data.random_split(self.nav_dataset, [tr_data_size, ts_data_size])
+
+        # create two data loaders one each for train and test
+        self.train_loader = data.DataLoader(dataset=tr_dataset, batch_size=batch_size)
+        self.test_loader = data.DataLoader(dataset=ts_dataset, batch_size=batch_size)
 
 def main():
     batch_size = 16
