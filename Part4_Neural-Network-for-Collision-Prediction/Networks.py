@@ -8,8 +8,8 @@ class Action_Conditioned_FF(nn.Module):
         # initializing the base (super) class of this class - same as super().__init__()
         super(Action_Conditioned_FF, self).__init__()
 
-        self.lin_layer_1 = nn.Linear(6, 100)
-        self.lin_layer_2 = nn.Linear(100, 1)
+        self.lin_layer_1 = nn.Linear(6, 125)
+        self.lin_layer_2 = nn.Linear(125, 1)
 
         # non-linear activation to use
         self.nonlinear_activation = nn.Sigmoid()
