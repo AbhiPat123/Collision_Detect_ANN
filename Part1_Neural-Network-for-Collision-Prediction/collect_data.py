@@ -54,5 +54,5 @@ def collect_training_data(total_actions):
     np.savetxt("submission_10k.csv", network_params, delimiter=",")
 
 if __name__ == '__main__':
-    total_actions = 10000
+    total_actions = 100000
     collect_training_data(total_actions)

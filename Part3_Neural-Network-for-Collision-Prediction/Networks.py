@@ -2,30 +2,32 @@ import torch
 import torch.nn as nn
 
 class Action_Conditioned_FF(nn.Module):
-    def __init__(self, inp_size=6, l1_size=10, lout_size=1):
+    def __init__(self):
 # STUDENTS: __init__() must initiatize nn.Module and define your network's
 # custom architecture
         # initializing the base (super) class of this class - same as super().__init__()
         super(Action_Conditioned_FF, self).__init__()
-        # Linear Layer 1
-        self.lin_layer_1 = nn.Linear(inp_size, l1_size)
-        # Linear Layer 2
-        self.lin_layer_2 = nn.Linear(l1_size, lout_size)
+
+        self.lin_layer_1 = nn.Linear(6, 200)
+        self.lin_layer_2 = nn.Linear(200, 1)
+
         # non-linear activation to use
         self.nonlinear_activation = nn.Sigmoid()
 
     def forward(self, input):
 # STUDENTS: forward() must complete a single forward pass through your network
 # and return the output which should be a tensor
-        # take the network input and pass through hidden layer (no activation yet)
+
         l1_z = self.lin_layer_1(input)
-        # apply nonlinear activation on the previous computation
         l1_a = self.nonlinear_activation(l1_z)
-        # pass to the next layer
-        output_z = self.lin_layer_2(l1_a)
-        # activation at final layer
-        output_a = self.nonlinear_activation(output_z)
-        output = output_a
+
+        l2_z = self.lin_layer_2(l1_a)
+        l2_a = self.nonlinear_activation(l2_z)
+
+        #l3_z = self.lin_layer_3(l2_a)
+        #l3_a = self.nonlinear_activation(l3_z)
+
+        output = l2_a
         # return the network output value
         return output
 

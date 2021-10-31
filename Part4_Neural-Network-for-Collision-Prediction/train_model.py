@@ -45,5 +45,5 @@ def train_model(no_epochs):
     torch.save(model.state_dict(), "saved/saved_model.pkl", _use_new_zipfile_serialization=False)
 
 if __name__ == '__main__':
-    no_epochs = 250
+    no_epochs = 200
     train_model(no_epochs)
