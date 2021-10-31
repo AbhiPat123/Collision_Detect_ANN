@@ -10,6 +10,8 @@ class Nav_Dataset(dataset.Dataset):
     def __init__(self):
         self.data = np.genfromtxt('saved/training_data.csv', delimiter=',')
 # STUDENTS: it may be helpful for the final part to balance the distribution of your collected data
+        # Data Balance Trick 1: removing redundant rows
+        self.data = np.unique(self.data, axis=0)
 
         # normalize data and save scaler for inference
         self.scaler = MinMaxScaler()

@@ -2,49 +2,32 @@ import torch
 import torch.nn as nn
 
 class Action_Conditioned_FF(nn.Module):
-    def __init__(self, *args):#inp_size=6, l1_size=10, lout_size=1):
+    def __init__(self):
 # STUDENTS: __init__() must initiatize nn.Module and define your network's
 # custom architecture
         # initializing the base (super) class of this class - same as super().__init__()
         super(Action_Conditioned_FF, self).__init__()
 
-        # the following variables stores all the layers
-        self.lin_layers = nn.ModuleList([])
+        self.lin_layer_1 = nn.Linear(6, 500)
+        self.lin_layer_2 = nn.Linear(500, 1)
 
         # non-linear activation to use
         self.nonlinear_activation = nn.Sigmoid()
 
-        # we need a default case where args is empty (the layer sizes would be 6,10,1 by default)
-        if len(args) == 0:
-            lay_sizes = (6,10,1)
-        else:
-            lay_sizes = args
-
-        # create and append a layer for the different sizes
-        for l_size in range(len(lay_sizes)-1):
-            # get the current and next layer size
-            cur_l_size = lay_sizes[l_size]
-            nex_l_size = lay_sizes[l_size+1]
-
-            # linear layer for arg_val
-            self.lin_layers.append(nn.Linear(cur_l_size, nex_l_size))        
-
     def forward(self, input):
 # STUDENTS: forward() must complete a single forward pass through your network
 # and return the output which should be a tensor
-        # start with input value which goes through multiple layers and changes values
-        val_changes = input
 
-        # go through the self.lin_layers
-        for layer in self.lin_layers:
-            # get output of layer
-            val_changes = layer(val_changes)
-            # send through activation
-            val_changes = self.nonlinear_activation(val_changes)
+        l1_z = self.lin_layer_1(input)
+        l1_a = self.nonlinear_activation(l1_z)
 
-        # the above for loop ends with the final output
-        output = val_changes
+        l2_z = self.lin_layer_2(l1_a)
+        l2_a = self.nonlinear_activation(l2_z)
 
+        #l3_z = self.lin_layer_3(l2_a)
+        #l3_a = self.nonlinear_activation(l3_z)
+
+        output = l2_a
         # return the network output value
         return output
 
@@ -75,9 +58,10 @@ class Action_Conditioned_FF(nn.Module):
         # need to flatten the tensor for model outputs AND also give the item value
         loss = loss_function(torch.flatten(model_outputs), target_labels).item()
         return loss
-
+        
 def main():
     model = Action_Conditioned_FF()
+
 
 if __name__ == '__main__':
     main()

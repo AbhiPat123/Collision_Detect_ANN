@@ -14,7 +14,7 @@ def train_model(no_epochs):
     model = Action_Conditioned_FF()
 
     # set the learning rate optimizer and loss function
-    learning_rate = 0.01
+    learning_rate = 0.001
 
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
@@ -45,5 +45,5 @@ def train_model(no_epochs):
     torch.save(model.state_dict(), "saved/saved_model.pkl", _use_new_zipfile_serialization=False)
 
 if __name__ == '__main__':
-    no_epochs = 5
+    no_epochs = 250
     train_model(no_epochs)
