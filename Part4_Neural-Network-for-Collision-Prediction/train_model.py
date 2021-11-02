@@ -9,14 +9,14 @@ import pickle
 
 def train_model(no_epochs):
 
-    batch_size = 32
+    batch_size = 16
     data_loaders = Data_Loaders(batch_size)
     model = Action_Conditioned_FF()
 
     # set the learning rate optimizer and loss function
     learning_rate = 0.001
 
-    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     loss_function = nn.BCELoss()
 
@@ -70,5 +70,5 @@ def train_model(no_epochs):
     torch.save(model.state_dict(), "saved/saved_model.pkl", _use_new_zipfile_serialization=False)
 
 if __name__ == '__main__':
-    no_epochs = 500
+    no_epochs = 175
     train_model(no_epochs)
