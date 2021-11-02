@@ -13,23 +13,22 @@ class Nav_Dataset(dataset.Dataset):
         self.data = np.genfromtxt('saved/training_data.csv', delimiter=',')
 # STUDENTS: it may be helpful for the final part to balance the distribution of your collected data
         # Data Balance Trick 1: removing redundant rows
-        self.data = np.unique(self.data, axis=0)
-        #data_uniq = np.unique(self.data, axis=0)
+        data_uniq = np.unique(self.data, axis=0)
 
         # Data Balance Trick 2: upsample class for collision
         # separate both classes
-        #data_uniq_lbl0 = data_uniq[np.where(data_uniq[:,-1]==0)]
-        #data_uniq_lbl1 = data_uniq[np.where(data_uniq[:,-1]==1)]
+        data_uniq_lbl0 = data_uniq[np.where(data_uniq[:,-1]==0)]
+        data_uniq_lbl1 = data_uniq[np.where(data_uniq[:,-1]==1)]
 
         # up-sample the collision class
-        #data_uniq_lbl1_up_sampled = resample(data_uniq_lbl1, replace=True, n_samples=len(data_uniq_lbl0))
+        data_uniq_lbl1_up_sampled = resample(data_uniq_lbl1, replace=True, n_samples=len(data_uniq_lbl0))
 
         # recombine data
-        #balanced_data = np.row_stack((data_uniq_lbl0, data_uniq_lbl1_up_sampled))
+        balanced_data = np.row_stack((data_uniq_lbl0, data_uniq_lbl1_up_sampled))
 
         # shuffle data for better learning and update self.data
-        #np.random.shuffle(balanced_data)
-        #self.data = balanced_data
+        np.random.shuffle(balanced_data)
+        self.data = balanced_data
 
         # normalize data and save scaler for inference
         self.scaler = MinMaxScaler()

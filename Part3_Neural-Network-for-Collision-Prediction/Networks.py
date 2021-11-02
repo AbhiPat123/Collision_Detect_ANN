@@ -8,26 +8,29 @@ class Action_Conditioned_FF(nn.Module):
         # initializing the base (super) class of this class - same as super().__init__()
         super(Action_Conditioned_FF, self).__init__()
 
-        self.lin_layer_1 = nn.Linear(6, 200)
-        self.lin_layer_2 = nn.Linear(200, 1)
+        self.lin_layer_1 = nn.Linear(6, 75)
+        self.lin_layer_2 = nn.Linear(75, 75)
+        self.lin_layer_3 = nn.Linear(75, 1)
 
-        # non-linear activation to use
-        self.nonlinear_activation = nn.Sigmoid()
+        # non-linear activation to use - Sigmoid and ReLU
+        self.Sigmoid = nn.Sigmoid()
+        # ReLU activation
+        self.relu = nn.ReLU()
 
     def forward(self, input):
 # STUDENTS: forward() must complete a single forward pass through your network
 # and return the output which should be a tensor
 
         l1_z = self.lin_layer_1(input)
-        l1_a = self.nonlinear_activation(l1_z)
+        l1_a = self.relu(l1_z)
 
         l2_z = self.lin_layer_2(l1_a)
-        l2_a = self.nonlinear_activation(l2_z)
+        l2_a = self.relu(l2_z)
 
-        #l3_z = self.lin_layer_3(l2_a)
-        #l3_a = self.nonlinear_activation(l3_z)
+        l3_z = self.lin_layer_3(l2_a)
+        l3_a = self.Sigmoid(l3_z)
 
-        output = l2_a
+        output = l3_a
         # return the network output value
         return output
 
