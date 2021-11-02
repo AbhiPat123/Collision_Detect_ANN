@@ -17,7 +17,7 @@ def collect_training_data(total_actions):
     num_params = 7
     #STUDENTS: network_params will be used to store your training data
     # a single sample will be comprised of: sensor_readings, action, collision
-    network_params = np.zeros((100, 7))
+    network_params = np.zeros((total_actions, 7))
 
 
     for action_i in range(total_actions):
@@ -51,8 +51,8 @@ def collect_training_data(total_actions):
     #STUDENTS: Save .csv here. Remember rows are individual samples, the first 5
     #columns are sensor values, the 6th is the action, and the 7th is collision.
     #Do not title the columns. Your .csv should look like the provided sample.
-    np.savetxt("submission.csv", network_params, delimiter=",")
+    np.savetxt("submission_10k.csv", network_params, delimiter=",")
 
 if __name__ == '__main__':
-    total_actions = 100
+    total_actions = 100000
     collect_training_data(total_actions)

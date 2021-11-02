@@ -25,6 +25,7 @@ def goal_seeking(goals_to_reach):
     #load model
     model = Action_Conditioned_FF()
     model.load_state_dict(torch.load('saved/saved_model.pkl'))
+
     model.eval()
 
     #load normalization parameters
